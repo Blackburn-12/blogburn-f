@@ -19,7 +19,6 @@ const Comment = ({ postId }) => {
     console.log("Adding comment:", text);
     dispatch(addComment({ postId, text }));
     setText('');
-    location.reload()
   };
 
   const handleDeleteComment = (commentId) => {
