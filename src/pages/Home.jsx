@@ -1,18 +1,24 @@
 // components/Home.js
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPosts } from '../redux/slices/postSlice';
 import { Link } from 'react-router-dom';
 import { Loader, Navbar, Footer } from '../components';
-import moment from 'moment'; // Import moment.js for date formatting
+import moment from 'moment';
 
 const Home = () => {
   const dispatch = useDispatch();
   const { posts, loading, error } = useSelector((state) => state.posts);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     dispatch(fetchPosts());
   }, [dispatch]);
+
+  const filteredPosts = posts.filter((post) =>
+    post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    post.content.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   if (loading) {
     return <div><Loader/></div>;
@@ -26,7 +32,17 @@ const Home = () => {
     <>
       <Navbar />
       <div className="flex flex-col space-y-6 p-6 max-w-4xl mx-auto mt-16">
-        {posts.map((post) => (
+        <div className="mb-4">
+          <h1 className='text-xl text-boxtext font-Oswald tracking-wide'>Search Post</h1>
+          <input
+            type="text"
+            placeholder="Search posts..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full mt-2 font-Palanquin px-4 py-2 rounded-lg border border-boxtext focus:outline-none focus:ring-1 focus:ring-boxtext"
+          />
+        </div>
+        {filteredPosts.map((post) => (
           <Link
             key={post._id}
             to={`/posts/${post._id}`}

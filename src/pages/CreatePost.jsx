@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createPost } from "../redux/slices/postSlice"; // Import the createPost thunk
+import { createPost } from "../redux/slices/postSlice";
 import axios from "axios";
 import { Footer, Navbar } from "../components/index.js";
 import Loader from "../components/Loader";
-import { useNavigate } from "react-router-dom"; // For React Router v6+
+import { useNavigate } from "react-router-dom";
 import { FaImage } from 'react-icons/fa';
 
 const CreatePost = () => {
@@ -15,6 +15,7 @@ const CreatePost = () => {
   const [content, setContent] = useState("");
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleImageUpload = async (imageFile) => {
     const formData = new FormData();
@@ -38,6 +39,8 @@ const CreatePost = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
+
     let imageUrl = null;
     if (image) {
       imageUrl = await handleImageUpload(image);
@@ -54,8 +57,13 @@ const CreatePost = () => {
 
     if (createPost.fulfilled.match(resultAction)) {
       const createdPost = resultAction.payload;
-      // Navigate to the new post's detail page
-      navigate(`/posts/${createdPost._id}`);
+      // Set a timeout before navigating
+      setTimeout(() => {
+        setIsSubmitting(false);
+        navigate(`/posts/${createdPost._id}`);
+      }, 2000);
+    } else {
+      setIsSubmitting(false);
     }
   };
 
@@ -116,9 +124,12 @@ const CreatePost = () => {
           </div>
           <button
             type="submit"
-            className="mt-4 bg-buttonBeforeHover text-white py-2 px-4 rounded hover:bg-buttonAfterHover"
+            className={`mt-4 bg-buttonBeforeHover text-white py-2 px-4 rounded hover:bg-buttonAfterHover ${
+              isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
+            }`}
+            disabled={isSubmitting}
           >
-            Create Post
+            {isSubmitting ? 'Creating Post...' : 'Create Post'}
           </button>
         </form>
       </div>
