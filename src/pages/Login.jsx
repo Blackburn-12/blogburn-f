@@ -22,7 +22,6 @@ const Login = () => {
       location.reload();
     }
   }, [userInfo, navigate]);
-  console.log(userInfo);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });

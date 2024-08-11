@@ -31,7 +31,7 @@ const Home = () => {
   return (
     <>
       <Navbar />
-      <div className="flex flex-col space-y-6 p-6 max-w-4xl mx-auto mt-16">
+      <div className="flex flex-col space-y-6 p-4 sm:p-6 max-w-4xl mx-auto mt-16">
         <div className="mb-4">
           <h1 className='text-xl text-boxtext font-Oswald tracking-wide'>Search Post</h1>
           <input
@@ -46,15 +46,15 @@ const Home = () => {
           <Link
             key={post._id}
             to={`/posts/${post._id}`}
-            className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 flex items-center"
+            className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col sm:flex-row items-center"
           >
             <img
               src={post.image}
               alt={post.title}
-              className="object-cover h-72 w-72 rounded-md mr-8"
+              className="object-cover h-48 w-full sm:h-72 sm:w-72 rounded-md mb-4 sm:mb-0 sm:mr-8"
             />
             <div className="flex-1">
-              <h2 className="text-2xl font-bold font-Palanquin mb-2 text-boxtext">
+              <h2 className="text-xl sm:text-2xl font-bold font-Palanquin mb-2 text-boxtext">
                 {post.title}
               </h2>
               <p className="text-gray-700 mb-4">

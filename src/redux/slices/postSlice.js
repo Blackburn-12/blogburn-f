@@ -5,7 +5,6 @@ import axios from "axios";
 export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
   try {
     const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/posts`);
-    console.log('Fetched posts:', response.data);
     return response.data;
   } catch (error) {
     console.error('Error fetching posts:', error);
@@ -17,7 +16,6 @@ export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
 export const fetchPostById = createAsyncThunk('posts/fetchPostById', async (id) => {
   try {
     const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/posts/${id}`);
-    console.log('Fetched post by ID:', response.data);
     return response.data;
   } catch (error) {
     console.error('Error fetching post by ID:', error);
@@ -39,7 +37,6 @@ export const createPost = createAsyncThunk(
         post,
         config
       );
-      console.log("Created post:", response.data);
       return response.data;
     } catch (error) {
       console.error("Error creating post:", error);
@@ -62,7 +59,6 @@ export const updatePost = createAsyncThunk(
         post,
         config
       );
-      console.log("Updated post:", response.data);
       return response.data;
     } catch (error) {
       console.error("Error updating post:", error);
@@ -84,7 +80,6 @@ export const deletePost = createAsyncThunk(
         `${import.meta.env.VITE_BASE_URL}/api/posts/${id}`,
         config
       );
-      console.log("Deleted post with ID:", id);
       return id;
     } catch (error) {
       console.error("Error deleting post:", error);
